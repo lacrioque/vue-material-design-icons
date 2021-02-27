@@ -46,13 +46,26 @@ function getTemplateData(id) {
 }
 
 function writeIndex(templateData) {
-  const exportList = templateData.map((tmpl) => {
-    return `export ${tmpl.name} from "./${tmpl.name}.vue"`;
+  const importList = templateData.map((tmpl) => {
+    return `import ${tmpl.name} from "./${tmpl.name}.vue;"`;
    });
+   const joinedImportList = importList.join("\n");
 
-   const joinedList = exportList.join("\n");
+   const exportList = templateData.map((tmpl) => `${tmpl.name}`);
+   const joinedExportList = exportList.join(",\n");
 
-   return fsp.writeFile(path.resolve(dist, "index.ts"), joinedList);
+
+   const indexFile = `
+// Import
+${joinedImportList}
+
+// Export
+export {
+${joinedExportList}
+};
+`;
+
+   return fsp.writeFile(path.resolve(dist, "index.ts"), indexFile);
 }
 
 (async function() {
