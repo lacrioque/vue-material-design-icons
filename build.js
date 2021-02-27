@@ -45,6 +45,16 @@ function getTemplateData(id) {
   };
 }
 
+function writeIndex(templateData) {
+  const exportList = templateData.map((tmpl) => {
+    return `export ${tmpl.name} from "./${tmpl.name}.vue"`;
+   });
+
+   const joinedList = exportList.join("\n");
+
+   return fsp.writeFile(path.resolve(dist, "index.ts"), joinedList);
+}
+
 (async function() {
   const iconIDs = Object.keys(icons);
 
@@ -56,4 +66,5 @@ function getTemplateData(id) {
 
   // Batch process promises to avoid overloading memory
   await pMap(templateData, renderAndWrite, { concurrency: 20 });
+  await writeIndex(templateData);
 })();

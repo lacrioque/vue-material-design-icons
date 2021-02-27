@@ -5,6 +5,8 @@ Design Icons, sourced from the
 [MaterialDesign project](https://github.com/Templarian/MaterialDesign 'MaterialDesign Github page').
 It also includes some CSS that helps make the scaling of the icons a little
 easier.
+Edit: 2021-02-27
+Added defineComponent around export to make it Vue3 and ts compatible
 
 ## Getting started
 
